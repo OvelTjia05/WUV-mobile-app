@@ -5,18 +5,18 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const SplashScreen = ({navigate}) => {
   return (
-    <View style={styles.container}>
-      <LinearGradient
-        colors={['#3E1A7E', '#682CA2']}
-        style={styles.backGround}
-        start={{x: 1, y: 0}}
-        // start={{x: 1, y: 0}}
-        // end={{x: 0, y: 1}}
-      >
-        <Text>WUV</Text>
-      </LinearGradient>
-      {/* <Logo /> */}
-    </View>
+    <LinearGradient
+      colors={['#3E1A7E', '#682CA2']}
+      style={styles.backGround}
+      start={{x: 1, y: 0}}
+      // start={{x: 1, y: 0}}
+      // end={{x: 0, y: 1}}
+    >
+      <Text>WUV</Text>
+      <View style={styles.container}>
+        <Logo />
+      </View>
+    </LinearGradient>
   );
 };
 
