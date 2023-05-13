@@ -46,7 +46,7 @@ const Login = ({navigation}) => {
           textColor="white"
           marginTop={30}
           navigation={navigation}
-          toScreen={'AboutUs'}
+          toScreen={'DashBoard'}
         />
       </View>
     </LinearGradient>

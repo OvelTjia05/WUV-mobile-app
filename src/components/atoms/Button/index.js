@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 37,
   },
   label: {
+    textAlign: 'center',
     fontFamily: 'Poppins-Medium',
     fontSize: 16,
     fontWeight: 'bold',

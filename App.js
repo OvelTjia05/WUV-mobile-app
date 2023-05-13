@@ -7,6 +7,7 @@ import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import AboutUs from './src/screens/AboutUs';
 import Profile from './src/screens/Profile';
+import DashBoard from './src/screens/DashBoard';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,11 @@ const App = () => {
         <Stack.Screen
           name="SignUp"
           component={SignUp}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DashBoard"
+          component={DashBoard}
           options={{headerShown: false}}
         />
         <Stack.Screen
