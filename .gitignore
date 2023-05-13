@@ -1,1 +1,2 @@
-node_modules
+# .gitignore
+/myapp/node_modules
