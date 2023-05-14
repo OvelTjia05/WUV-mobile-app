@@ -9,6 +9,7 @@ import AboutUs from './src/screens/AboutUs';
 import Profile from './src/screens/Profile';
 import DashBoard from './src/screens/DashBoard';
 import CuciKendaraan from './src/screens/CuciKendaraan';
+import Setting from './src/screens/Setting';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +50,12 @@ const App = () => {
         <Stack.Screen
           name="CuciKendaraan"
           component={CuciKendaraan}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="Setting"
+          component={Setting}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
