@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,25 +6,64 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {Cuci} from '../../assets/icons';
 
 import Header from '../../components/molecules/Header';
 import Garis from '../../components/atoms/Garis';
 import Gap from '../../components/atoms/Gap';
 import Button from '../../components/atoms/Button';
 
-import {
-  Sepeda,
-  Plus,
-  Minus,
-  Motor,
-  Mobil,
-  Truck,
-  Kembali,
-  Berikutnya,
-} from '../../assets/icons';
+import {Sepeda, Plus, Minus, Motor, Mobil, Truck} from '../../assets/icons';
 
 const CuciKendaraan = ({navigation}) => {
+  const [sepedaQty, setSepedaQty] = useState(0);
+  const [motorQty, setMotorQty] = useState(0);
+  const [mobilQty, setMobilQty] = useState(0);
+  const [truckQty, setTruckQty] = useState(0);
+  const [totalHarga, setTotalHarga] = useState(0);
+
+  const handleQtyChange = (vehicleType, operation) => {
+    switch (vehicleType) {
+      case 'sepeda':
+        if (operation === 'plus') {
+          setSepedaQty(sepedaQty + 1);
+          setTotalHarga(totalHarga + 24000);
+        } else {
+          setSepedaQty(sepedaQty - 1);
+          setTotalHarga(totalHarga - 24000);
+        }
+        break;
+      case 'motor':
+        if (operation === 'plus') {
+          setMotorQty(motorQty + 1);
+          setTotalHarga(totalHarga + 40000);
+        } else {
+          setMotorQty(motorQty - 1);
+          setTotalHarga(totalHarga - 40000);
+        }
+        break;
+      case 'mobil':
+        if (operation === 'plus') {
+          setMobilQty(mobilQty + 1);
+          setTotalHarga(totalHarga + 50000);
+        } else {
+          setMobilQty(mobilQty - 1);
+          setTotalHarga(totalHarga - 50000);
+        }
+        break;
+      case 'truck':
+        if (operation === 'plus') {
+          setTruckQty(truckQty + 1);
+          setTotalHarga(totalHarga + 50000);
+        } else {
+          setTruckQty(truckQty - 1);
+          setTotalHarga(totalHarga - 50000);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Header label="Cuci Kendaraan" />
@@ -38,11 +77,12 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 24.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleQtyChange('sepeda', 'minus')}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{sepedaQty}</Text>
+            <TouchableOpacity onPress={() => handleQtyChange('sepeda', 'plus')}>
               <Plus />
             </TouchableOpacity>
           </View>
@@ -54,11 +94,11 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 40.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleQtyChange('motor', 'minus')}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{motorQty}</Text>
+            <TouchableOpacity onPress={() => handleQtyChange('motor', 'plus')}>
               <Plus />
             </TouchableOpacity>
           </View>
@@ -70,11 +110,11 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 50.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleQtyChange('mobil', 'minus')}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{mobilQty}</Text>
+            <TouchableOpacity onPress={() => handleQtyChange('mobil', 'plus')}>
               <Plus />
             </TouchableOpacity>
           </View>
@@ -86,16 +126,16 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 50.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleQtyChange('truck', 'minus')}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{truckQty}</Text>
+            <TouchableOpacity onPress={() => handleQtyChange('truck', 'plus')}>
               <Plus />
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={styles.subHeader2}>Total harga : Rp.144.000</Text>
+        <Text style={styles.subHeader2}>Total harga : Rp. {totalHarga}</Text>
       </View>
       <View style={styles.bottom}>
         <Button
@@ -112,7 +152,7 @@ const CuciKendaraan = ({navigation}) => {
           width={130}
           textColor="#fff"
           navigation={navigation}
-          toScreen="DashBoard"
+          toScreen="Pembayaran"
         />
       </View>
     </ScrollView>
