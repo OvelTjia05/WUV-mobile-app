@@ -21,6 +21,42 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  riwayatTransaksi: [
+    {
+      tanggalTransaksi: {
+        type: Date,
+        required: true,
+      },
+      jumlahSepeda: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
+      jumlahMotor: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
+      jumlahMobil: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
+      totalHarga: {
+        type: Number,
+        required: true,
+        min: 1000,
+      },
+      totalBayar: {
+        type: Number,
+        required: true,
+        min: 1000,
+      },
+      uangKembalian: {
+        type: Number,
+      },
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);
