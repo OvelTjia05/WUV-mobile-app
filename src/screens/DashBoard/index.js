@@ -13,7 +13,7 @@ import Garis from '../../components/atoms/Garis';
 import Gap from '../../components/atoms/Gap';
 import Button from '../../components/atoms/Button';
 
-const DashBoard = () => {
+const DashBoard = ({navigation}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [animation, setAnimation] = useState(new Animated.Value(0));
 
@@ -57,6 +57,8 @@ const DashBoard = () => {
           backgroundColor="#6129F6"
           width={150}
           textColor="white"
+          navigation={navigation}
+          toScreen={'CuciKendaraan'}
         />
         <Gap />
         <Status />

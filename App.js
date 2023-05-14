@@ -8,6 +8,7 @@ import SignUp from './src/screens/SignUp';
 import AboutUs from './src/screens/AboutUs';
 import Profile from './src/screens/Profile';
 import DashBoard from './src/screens/DashBoard';
+import CuciKendaraan from './src/screens/CuciKendaraan';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,11 @@ const App = () => {
         <Stack.Screen
           name="Profile"
           component={Profile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CuciKendaraan"
+          component={CuciKendaraan}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
