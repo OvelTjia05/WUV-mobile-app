@@ -10,6 +10,7 @@ import Profile from './src/screens/Profile';
 import DashBoard from './src/screens/DashBoard';
 import CuciKendaraan from './src/screens/CuciKendaraan';
 import Setting from './src/screens/Setting';
+import Feedback from './src/screens/Feedback';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +53,11 @@ const App = () => {
           component={CuciKendaraan}
           options={{headerShown: false}}
         />
-
+        <Stack.Screen
+          name="Feedback"
+          component={Feedback}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Setting"
           component={Setting}
