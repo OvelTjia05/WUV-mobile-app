@@ -14,7 +14,6 @@ const Setting = ({navigation}) => {
         onPress={() => navigation.navigate("SignIn")}>
         <Text style={styles.teks}>Log Out</Text>
       </TouchableOpacity>
-
         <View style={styles.bottom}>
         <Button
           label="Kembali"
