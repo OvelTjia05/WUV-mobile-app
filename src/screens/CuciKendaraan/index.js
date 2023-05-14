@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {Cuci} from '../../assets/icons';
 
@@ -25,6 +26,23 @@ import {
 } from '../../assets/icons';
 
 const CuciKendaraan = ({navigation}) => {
+  const [jumlahSepeda, setJumlahSepeda] = useState(0);
+  const [jumlahMotor, setJumlahMotor] = useState(0);
+  const [jumlahMobil, setJumlahMobil] = useState(0);
+  const [jumlahTruk, setJumlahTruk] = useState(0);
+
+  const [totalHarga, setTotalHarga] = useState(0);
+  const [totalKendaraan, setTotalKendaraan] = useState(0);
+
+  useEffect(() => {
+    setTotalHarga(
+      jumlahSepeda * 24000 +
+        jumlahMotor * 30000 +
+        jumlahMobil * 40000 +
+        jumlahTruk * 50000,
+    );
+  }, [jumlahSepeda, jumlahMotor, jumlahMobil, jumlahTruk]);
+
   return (
     <ScrollView style={styles.container}>
       <Header label="Cuci Kendaraan" />
@@ -38,11 +56,23 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 24.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (jumlahSepeda == 0) {
+                  Alert.alert('Maaf angka sudah nol');
+                } else {
+                  const jumlahSementara = jumlahSepeda - 1;
+                  setJumlahSepeda(jumlahSementara);
+                }
+              }}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{jumlahSepeda}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                const jumlahSementara = jumlahSepeda + 1;
+                setJumlahSepeda(jumlahSementara);
+              }}>
               <Plus />
             </TouchableOpacity>
           </View>
@@ -54,11 +84,23 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 40.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (jumlahMotor == 0) {
+                  Alert.alert('Maaf angka sudah nol');
+                } else {
+                  const jumlahSementara = jumlahMotor - 1;
+                  setJumlahMotor(jumlahSementara);
+                }
+              }}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{jumlahMotor}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                const jumlahSementara = jumlahSepeda + 1;
+                setJumlahMotor(jumlahSementara);
+              }}>
               <Plus />
             </TouchableOpacity>
           </View>
@@ -70,11 +112,23 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 50.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (jumlahMobil == 0) {
+                  Alert.alert('Maaf angka sudah nol');
+                } else {
+                  const jumlahSementara = jumlahMobil - 1;
+                  setJumlahMobil(jumlahSementara);
+                }
+              }}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{jumlahMobil}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                const jumlahSementara = jumlahMobil + 1;
+                setJumlahMobil(jumlahSementara);
+              }}>
               <Plus />
             </TouchableOpacity>
           </View>
@@ -86,16 +140,28 @@ const CuciKendaraan = ({navigation}) => {
           <Text style={styles.textPrice}>Rp. 50.000</Text>
 
           <View style={styles.containerJumlah}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (jumlahTruk == 0) {
+                  Alert.alert('Maaf angka sudah nol');
+                } else {
+                  const jumlahSementara = jumlahTruk - 1;
+                  setJumlahTruk(jumlahSementara);
+                }
+              }}>
               <Minus />
             </TouchableOpacity>
-            <Text style={styles.textSum}>2</Text>
-            <TouchableOpacity>
+            <Text style={styles.textSum}>{jumlahTruk}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                const jumlahSementara = jumlahTruk + 1;
+                setJumlahTruk(jumlahSementara);
+              }}>
               <Plus />
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={styles.subHeader2}>Total harga : Rp.144.000</Text>
+        <Text style={styles.subHeader2}>Total harga : Rp.{totalHarga}</Text>
       </View>
       <View style={styles.bottom}>
         <Button
@@ -112,7 +178,15 @@ const CuciKendaraan = ({navigation}) => {
           width={130}
           textColor="#fff"
           navigation={navigation}
-          toScreen="DashBoard"
+          toScreen="Pembayaran"
+          data={{
+            jumlahSepeda,
+            jumlahMotor,
+            jumlahMobil,
+            jumlahTruk,
+            totalHarga,
+            totalKendaraan,
+          }}
         />
       </View>
     </ScrollView>

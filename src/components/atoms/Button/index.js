@@ -10,24 +10,52 @@ const Button = ({
   width,
   marginTop,
   disabled,
+  onClick,
+  data,
 }) => {
-  return (
-    <View>
-      <TouchableOpacity
-        disabled={disabled}
-        onPress={() => navigation.navigate(toScreen)}
-        style={[
-          styles.button,
-          {
-            backgroundColor: `${backgroundColor}`,
-            width: width,
-            marginTop: marginTop,
-          },
-        ]}>
-        <Text style={[styles.label, {color: `${textColor}`}]}>{label}</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  if (onClick) {
+    return (
+      <View>
+        <TouchableOpacity
+          disabled={disabled}
+          onPress={onClick}
+          style={[
+            styles.button,
+            {
+              backgroundColor: `${backgroundColor}`,
+              width: width,
+              marginTop: marginTop,
+            },
+          ]}>
+          <Text style={[styles.label, {color: `${textColor}`}]}>{label}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  } else {
+    return (
+      <View>
+        <TouchableOpacity
+          disabled={disabled}
+          onPress={() => {
+            if (data) {
+              navigation.navigate(toScreen, data);
+            } else {
+              navigation.navigate(toScreen);
+            }
+          }}
+          style={[
+            styles.button,
+            {
+              backgroundColor: `${backgroundColor}`,
+              width: width,
+              marginTop: marginTop,
+            },
+          ]}>
+          <Text style={[styles.label, {color: `${textColor}`}]}>{label}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 };
 
 export default Button;

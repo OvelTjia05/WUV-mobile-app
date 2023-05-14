@@ -7,15 +7,19 @@ import {
   Modal,
   Animated,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Close, Cuci, Menu, Monyet, Status} from '../../assets/icons';
 import Garis from '../../components/atoms/Garis';
 import Gap from '../../components/atoms/Gap';
 import Button from '../../components/atoms/Button';
 
-const DashBoard = ({navigation}) => {
+import axios from 'axios';
+
+const DashBoard = ({navigation, route}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [animation, setAnimation] = useState(new Animated.Value(0));
+
+  const {dataUser} = route.params;
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -44,14 +48,15 @@ const DashBoard = ({navigation}) => {
           <Menu />
         </TouchableOpacity>
         <Text style={styles.teks}>DashBoard</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile', {dataUser})}>
           <Image source={Monyet} style={styles.foto} />
         </TouchableOpacity>
       </View>
       <View style={styles.subContainer}>
         <Garis />
         <Gap />
-        <Text style={styles.teks}>Welcome Back Jowu</Text>
+        <Text style={styles.teks}>Welcome back {dataUser.name}</Text>
         <Gap />
         <Cuci />
         <Button

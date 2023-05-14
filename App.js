@@ -12,6 +12,7 @@ import CuciKendaraan from './src/screens/CuciKendaraan';
 import Setting from './src/screens/Setting';
 import Feedback from './src/screens/Feedback';
 import Riwayat from './src/screens/Riwayat';
+import Pembayaran from './src/screens/Pembayaran';
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,11 @@ const App = () => {
         <Stack.Screen
           name="Riwayat"
           component={Riwayat}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Pembayaran"
+          component={Pembayaran}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

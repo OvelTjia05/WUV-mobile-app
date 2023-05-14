@@ -8,11 +8,15 @@ import {
 } from 'react-native';
 import {isSearchBarAvailableForCurrentPlatform} from 'react-native-screens';
 
-const TextInput = ({label, placeHolder}) => {
+const TextInput = ({label, placeHolder, onChangeText}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <Input style={styles.textInput} placeholder={placeHolder + ' *'} />
+      <Input
+        style={styles.textInput}
+        placeholder={placeHolder + ' *'}
+        onChangeText={text => onChangeText(text)}
+      />
     </View>
   );
 };
