@@ -44,7 +44,9 @@ const DashBoard = ({navigation}) => {
           <Menu />
         </TouchableOpacity>
         <Text style={styles.teks}>DashBoard</Text>
-        <Image source={Monyet} style={styles.foto} />
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <Image source={Monyet} style={styles.foto} />
+        </TouchableOpacity>
       </View>
       <View style={styles.subContainer}>
         <Garis />
@@ -67,6 +69,8 @@ const DashBoard = ({navigation}) => {
           backgroundColor="#6129F6"
           width={150}
           textColor="white"
+          navigation={navigation}
+          toScreen={'Riwayat'}
         />
       </View>
       <Modal
@@ -79,11 +83,17 @@ const DashBoard = ({navigation}) => {
           onPress={handleMenuToggle}>
           <Animated.View style={[styles.menu, animatedStyles]}>
             <Garis />
-            <Text style={styles.sidebarText}>Setting</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
+              <Text style={styles.sidebarText}>Setting</Text>
+            </TouchableOpacity>
             <Garis />
-            <Text style={styles.sidebarText}>Feedback</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Feedback')}>
+              <Text style={styles.sidebarText}>Feedback</Text>
+            </TouchableOpacity>
             <Garis />
-            <Text style={styles.sidebarText}>About</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('AboutUs')}>
+              <Text style={styles.sidebarText}>About</Text>
+            </TouchableOpacity>
             <Garis />
           </Animated.View>
         </TouchableOpacity>

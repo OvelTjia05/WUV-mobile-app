@@ -1,8 +1,9 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
-import {Ovel, Monyet} from '../../assets/icons';
+import {Ovel, Monyet, JoTu, Jerico} from '../../assets/icons';
+import Button from '../../components/atoms/Button';
 
-const AboutUs = () => {
+const AboutUs = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -13,7 +14,7 @@ const AboutUs = () => {
           <Text style={styles.teks}>Ovel Tjia</Text>
         </View>
         <View style={styles.profil}>
-          <Image source={Monyet} style={styles.foto} resizeMode="cover" />
+          <Image source={Jerico} style={styles.foto} resizeMode="cover" />
           <Text style={styles.teks}>Jerico Katong</Text>
         </View>
         <View style={styles.profil}>
@@ -21,7 +22,7 @@ const AboutUs = () => {
           <Text style={styles.teks}>Josua Wuisan</Text>
         </View>
         <View style={styles.profil}>
-          <Image source={Monyet} style={styles.foto} resizeMode="cover" />
+          <Image source={JoTu} style={styles.foto} resizeMode="cover" />
           <Text style={styles.teks}>Joshua Tumatar</Text>
         </View>
         <View style={styles.profil}>
@@ -29,6 +30,14 @@ const AboutUs = () => {
           <Text style={styles.teks}>Laurance Pontoh</Text>
         </View>
       </View>
+      <Button
+        label="Kembali"
+        backgroundColor="#6B30A4"
+        width={130}
+        textColor="#fff"
+        navigation={navigation}
+        toScreen="DashBoard"
+      />
     </ScrollView>
   );
 };

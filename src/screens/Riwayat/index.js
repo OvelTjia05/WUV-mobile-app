@@ -1,23 +1,29 @@
-import {ScrollView, StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import React from 'react';
-import {JoTu} from '../../assets/icons';
 import Button from '../../components/atoms/Button';
+import DashBoard from '../DashBoard';
+import Gap from '../../components/atoms/Gap';
+import Garis from '../../components/atoms/Garis';
 
-const Profile = ({navigation}) => {
+const Riwayat = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>Riwayat</Text>
         <View style={styles.card}>
-          <Text style={styles.teksProfil}>PROFILE</Text>
-          <Image source={JoTu} style={styles.foto} resizeMode="cover" />
-          <Text style={styles.teksProfil}>Joshua Tumatar</Text>
-          <Text style={styles.teks}>PHONE NUMBER:</Text>
-          <Text style={styles.detail}>081234567899</Text>
-          <Text style={styles.teks}>RESIDENCE:</Text>
-          <Text style={styles.detail}>Minahasa Utara</Text>
-          <Text style={styles.teks}>MEMBERSHIP:</Text>
-          <Text style={styles.detail}>Silver</Text>
+          <Text>17 April 2023</Text>
+          <View style={styles.isiCard}>
+            <View style={styles.isiCard2}>
+              <Text>1</Text>
+              <Text>Motor</Text>
+            </View>
+            <Text>Rp. 30000</Text>
+          </View>
+          <Garis />
+          <View style={styles.total}>
+            <Text>Total</Text>
+            <Text style={styles.totalTeks}>Rp. 30000</Text>
+          </View>
         </View>
       </View>
       <Button
@@ -32,7 +38,7 @@ const Profile = ({navigation}) => {
   );
 };
 
-export default Profile;
+export default Riwayat;
 
 const styles = StyleSheet.create({
   container: {
@@ -50,15 +56,32 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   card: {
-    alignItems: 'center',
-    // justifyContent: 'center',
-    height: 540,
-    width: 298,
-    borderRadius: 50,
+    padding: 10,
+    // height: 200,
+    width: 320,
+    borderRadius: 20,
     marginVertical: 50,
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'gray',
+  },
+  isiCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  isiCard2: {
+    flexDirection: 'row',
+    columnGap: 20,
+  },
+  total: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    textAlign: 'right',
+  },
+  totalTeks: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 14,
+    color: 'green',
   },
   teksProfil: {
     color: '#6B30A4',
