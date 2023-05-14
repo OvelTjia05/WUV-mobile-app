@@ -4,7 +4,7 @@ import React from 'react';
 const Feedback = () => {
   return (
     <View>
-      <Text>Feedback</Text>
+      <Text>Feedbac</Text>
     </View>
   );
 };
