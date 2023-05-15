@@ -1,11 +1,74 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Garis from '../../components/atoms/Garis';
 import Header from '../../components/molecules/Header';
 import Gap from '../../components/atoms/Gap';
 import Button from '../../components/atoms/Button';
 
-const Pembayaran = ({navigation}) => {
+import axios from 'axios';
+import moment from 'moment';
+
+const Pembayaran = ({navigation, route}) => {
+  const [uangBayar, setuangBayar] = useState();
+  const [resultAmbil, setResultAmbil] = useState();
+  const [uangKembalian, setUangKembalian] = useState(0);
+
+  const {dataUser} = route.params;
+
+  console.log(dataUser);
+
+  useEffect(() => {
+    getDataUser();
+    console.log(resultAmbil);
+  }, []);
+
+  const getDataUser = async () => {
+    try {
+      const res = await axios.get(
+        `http://192.168.43.230:3000/api/users${dataUser.username}`,
+      );
+      setResultAmbil(res.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const tambahTransaksi = async () => {
+    if (uangBayar >= dataUser.totalHarga) {
+      setUangKembalian(uangBayar - dataUser.totalHarga);
+
+      const transaksiData = {
+        tanggalTransaksi: moment().format('DD MMMM YYYY, HH:mm'), // Tanggal transaksi (gunakan nilai yang sesuai)
+        jumlahSepeda: dataUser.sepedaQty,
+        jumlahMotor: dataUser.motorQty,
+        jumlahMobil: dataUser.mobilQty,
+        jumlahTruk: dataUser.truckQty,
+        totalHarga: dataUser.totalHarga,
+        totalBayar: uangBayar,
+        uangKembalian: uangKembalian,
+      };
+      console.log('ini transaksi data');
+
+      try {
+        console.log('didalam catch');
+        console.log(resultAmbil.username);
+        const response = await axios.patch(
+          `http://192.168.43.230:3000/api/tambahTransaksi${resultAmbil.username}`,
+          transaksiData,
+        );
+
+        console.log('Transaksi berhasil ditambahkan:', response.data);
+        const dataUser = resultAmbil;
+        navigation.navigate('DashBoard', {dataUser});
+      } catch (error) {
+        console.error(
+          'Terjadi kesalahan saat menambahkan transaksi:',
+          error.message,
+        );
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header label="Pembayaran" />
@@ -17,14 +80,19 @@ const Pembayaran = ({navigation}) => {
         </Text>
         <View style={styles.bayar}>
           <Text style={styles.rp}>Rp.</Text>
-          <TextInput style={styles.input} placeholder="Input Amount" />
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            placeholder="Input Amount"
+            onChangeText={uangBayar => setuangBayar(uangBayar)}
+          />
         </View>
         <Garis />
         <View style={styles.total}>
           <Text style={styles.totalteks}>Total harga :</Text>
           <View style={styles.price}>
             <Text style={styles.totalteks}>Rp. </Text>
-            <Text style={styles.totalteks}>144000</Text>
+            <Text style={styles.totalteks}>{dataUser.totalHarga}</Text>
           </View>
         </View>
         <View style={styles.bottom}>
@@ -43,6 +111,7 @@ const Pembayaran = ({navigation}) => {
             textColor="#fff"
             navigation={navigation}
             toScreen="DashBoard"
+            onClick={tambahTransaksi}
           />
         </View>
       </View>

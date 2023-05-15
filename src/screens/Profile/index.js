@@ -3,7 +3,9 @@ import React from 'react';
 import {JoTu} from '../../assets/icons';
 import Button from '../../components/atoms/Button';
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
+  const {dataUser} = route.params;
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -11,13 +13,13 @@ const Profile = ({navigation}) => {
         <View style={styles.card}>
           <Text style={styles.teksProfil}>PROFILE</Text>
           <Image source={JoTu} style={styles.foto} resizeMode="cover" />
-          <Text style={styles.teksProfil}>Joshua Tumatar</Text>
+          <Text style={styles.teksProfil}>{dataUser.name}</Text>
           <Text style={styles.teks}>PHONE NUMBER:</Text>
-          <Text style={styles.detail}>081234567899</Text>
+          <Text style={styles.detail}>{dataUser.phoneNumber}</Text>
           <Text style={styles.teks}>RESIDENCE:</Text>
-          <Text style={styles.detail}>Minahasa Utara</Text>
+          <Text style={styles.detail}>{dataUser.address}</Text>
           <Text style={styles.teks}>MEMBERSHIP:</Text>
-          <Text style={styles.detail}>Silver</Text>
+          <Text style={styles.detail}>{dataUser.membership}</Text>
         </View>
       </View>
       <Button
@@ -27,6 +29,7 @@ const Profile = ({navigation}) => {
         textColor="white"
         navigation={navigation}
         toScreen="DashBoard"
+        data={dataUser}
       />
     </ScrollView>
   );

@@ -8,14 +8,16 @@ import {
   Animated,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Close, Cuci, Menu, Monyet, Status} from '../../assets/icons';
+import {Close, Cuci, JoTu, Menu, Monyet, Status} from '../../assets/icons';
 import Garis from '../../components/atoms/Garis';
 import Gap from '../../components/atoms/Gap';
 import Button from '../../components/atoms/Button';
 
-const DashBoard = ({navigation}) => {
+const DashBoard = ({navigation, route}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [animation, setAnimation] = useState(new Animated.Value(0));
+
+  const {dataUser} = route.params;
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -44,14 +46,15 @@ const DashBoard = ({navigation}) => {
           <Menu />
         </TouchableOpacity>
         <Text style={styles.teks}>DashBoard</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Image source={Monyet} style={styles.foto} />
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile', {dataUser})}>
+          <Image source={JoTu} style={styles.foto} />
         </TouchableOpacity>
       </View>
       <View style={styles.subContainer}>
         <Garis />
         <Gap />
-        <Text style={styles.teks}>Welcome Back Jowu</Text>
+        <Text style={styles.teks}>Welcome Back {dataUser.name}</Text>
         <Gap />
         <Cuci />
         <Button
@@ -61,16 +64,18 @@ const DashBoard = ({navigation}) => {
           textColor="white"
           navigation={navigation}
           toScreen={'CuciKendaraan'}
+          data={dataUser}
         />
         <Gap />
         <Status />
         <Button
-          label="Status Transaksi"
+          label="Riwayat Transaksi"
           backgroundColor="#6129F6"
           width={150}
           textColor="white"
           navigation={navigation}
           toScreen={'Riwayat'}
+          data={dataUser}
         />
       </View>
       <Modal

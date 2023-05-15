@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {Logo, WuvIcon} from '../../assets/icons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -6,7 +6,45 @@ import LinearGradient from 'react-native-linear-gradient';
 import Button from '../../components/atoms/Button';
 import TextInput from '../../components/molecules/TextInput';
 
+import axios from 'axios';
+
 const Login = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    setUsername('');
+    setPassword('');
+  }, []);
+
+  const onUsername = text => {
+    setUsername(text);
+  };
+
+  const onPassword = text => {
+    setPassword(text);
+  };
+
+  const login = async () => {
+    try {
+      const res = await axios.post('http://192.168.43.230:3000/api/login', {
+        username: username,
+        password: password,
+      });
+
+      if (res.data.status == 'Success Login') {
+        const dataUser = res.data.data[0];
+        console.log(dataUser);
+        navigation.navigate('DashBoard', {dataUser});
+      } else {
+        const pesan = res.data.message;
+        Alert.alert('Login Gagal', pesan);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <LinearGradient
       colors={['#3E1A7E', '#682CA2']}
@@ -37,8 +75,8 @@ const Login = ({navigation}) => {
           />
         </View>
 
-        <TextInput placeHolder="Username" />
-        <TextInput placeHolder="Password" />
+        <TextInput placeHolder="Username" onChangeText={onUsername} />
+        <TextInput placeHolder="Password" onChangeText={onPassword} />
         <Button
           label="Log In"
           backgroundColor="#6B30A4"
@@ -47,6 +85,7 @@ const Login = ({navigation}) => {
           marginTop={30}
           navigation={navigation}
           toScreen={'DashBoard'}
+          onClick={login}
         />
       </View>
     </LinearGradient>

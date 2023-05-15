@@ -1,30 +1,120 @@
 import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from '../../components/atoms/Button';
 import DashBoard from '../DashBoard';
 import Gap from '../../components/atoms/Gap';
 import Garis from '../../components/atoms/Garis';
+import axios from 'axios';
+import moment from 'moment';
 
-const Riwayat = ({navigation}) => {
+const Riwayat = ({navigation, route}) => {
+  const {dataUser} = route.params;
+  // setUsername(dataUser.username);
+  // const [username, setUsername] = useState('');
+  const [data, setData] = useState();
+  // const [arrayRiwayatTransaksi, setAraayRiwayatTransaksi] = useState();
+
+  useEffect(() => {
+    getDataTransaksiUser();
+  }, []);
+
+  const getDataTransaksiUser = async () => {
+    try {
+      console.log('ini dalam catc');
+      console.log(dataUser.username);
+      const response = await axios.get(
+        `http://192.168.43.230:3000/api/users${dataUser.username}`,
+      );
+      const userData = response.data.data.riwayatTransaksi;
+      setData(userData);
+      console.log(userData);
+      // setAraayRiwayatTransaksi(data.riwayatTransaksi);
+      // console.log(arrayRiwayatTransaksi);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Riwayat</Text>
-        <View style={styles.card}>
-          <Text>17 April 2023</Text>
-          <View style={styles.isiCard}>
-            <View style={styles.isiCard2}>
-              <Text>1</Text>
-              <Text>Motor</Text>
+        {data && data.length > 0 ? (
+          data.map((value, index) => (
+            <View style={styles.card} key={index}>
+              <Text>
+                {moment(value.tanggalTransaksi).format('DD MMMM YYYY, HH:mm')}
+              </Text>
+              <View style={styles.isiCard}>
+                <View style={styles.isiCard2}>
+                  <Text>{value.jumlahSepeda}</Text>
+                  <Text>Sepeda</Text>
+                </View>
+                <Text>
+                  Rp.{' '}
+                  {(() => {
+                    if (value.jumlahSepeda) {
+                      return value.jumlahSepeda * 240000;
+                    }
+                  })()}
+                </Text>
+              </View>
+
+              <View style={styles.isiCard}>
+                <View style={styles.isiCard2}>
+                  <Text>{value.jumlahMotor}</Text>
+                  <Text>Motor</Text>
+                </View>
+                <Text>
+                  Rp.{' '}
+                  {(() => {
+                    if (value.jumlahMotor) {
+                      return value.jumlahMotor * 300000;
+                    }
+                  })()}
+                </Text>
+              </View>
+
+              <View style={styles.isiCard}>
+                <View style={styles.isiCard2}>
+                  <Text>{value.jumlahMobil}</Text>
+                  <Text>Mobil</Text>
+                </View>
+                <Text>
+                  Rp.{' '}
+                  {(() => {
+                    if (value.jumlahMobil) {
+                      return value.jumlahMobil * 400000;
+                    }
+                  })()}
+                </Text>
+              </View>
+
+              <View style={styles.isiCard}>
+                <View style={styles.isiCard2}>
+                  <Text>{value.jumlahTruk}</Text>
+                  <Text>Truck</Text>
+                </View>
+                <Text>
+                  Rp.{' '}
+                  {(() => {
+                    if (value.jumlahTruk) {
+                      return value.jumlahTruk * 500000;
+                    }
+                  })()}
+                </Text>
+              </View>
+
+              <Garis />
+              <View style={styles.total}>
+                <Text>Total</Text>
+                <Text style={styles.totalTeks}>Rp. {value.totalHarga}</Text>
+              </View>
             </View>
-            <Text>Rp. 30000</Text>
-          </View>
-          <Garis />
-          <View style={styles.total}>
-            <Text>Total</Text>
-            <Text style={styles.totalTeks}>Rp. 30000</Text>
-          </View>
-        </View>
+          ))
+        ) : (
+          <Text>Loading...</Text>
+        )}
       </View>
       <Button
         label="Back"
@@ -32,7 +122,8 @@ const Riwayat = ({navigation}) => {
         width={130}
         textColor="white"
         navigation={navigation}
-        toScreen="DashBoard"
+        toScreen={'DashBoard'}
+        data={dataUser}
       />
     </ScrollView>
   );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,13 +13,41 @@ import Gap from '../../components/atoms/Gap';
 import Button from '../../components/atoms/Button';
 
 import {Sepeda, Plus, Minus, Motor, Mobil, Truck} from '../../assets/icons';
+import {useFocusEffect} from '@react-navigation/native';
+import axios from 'axios';
 
-const CuciKendaraan = ({navigation}) => {
+const CuciKendaraan = ({navigation, route}) => {
   const [sepedaQty, setSepedaQty] = useState(0);
   const [motorQty, setMotorQty] = useState(0);
   const [mobilQty, setMobilQty] = useState(0);
   const [truckQty, setTruckQty] = useState(0);
   const [totalHarga, setTotalHarga] = useState(0);
+
+  const [totalKendaraan, setTotalKendaraan] = useState(0);
+
+  const [dataKendaraan, setDataKendaraan] = useState();
+
+  const {dataUser} = route.params;
+  const username = dataUser.username;
+
+  useEffect(() => {
+    getDataKendaraan();
+    console.log(dataKendaraan);
+  }, []);
+
+  useEffect(() => {
+    const jumlahKendaraan = sepedaQty + motorQty + mobilQty + truckQty;
+    setTotalKendaraan(jumlahKendaraan);
+  }, [sepedaQty, motorQty, mobilQty, truckQty]);
+
+  const getDataKendaraan = async () => {
+    try {
+      const res = await axios.get('http://192.168.43.230:3000/api/vehicles');
+      setDataKendaraan(res.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleQtyChange = (vehicleType, operation) => {
     switch (vehicleType) {
@@ -35,19 +63,19 @@ const CuciKendaraan = ({navigation}) => {
       case 'motor':
         if (operation === 'plus') {
           setMotorQty(motorQty + 1);
-          setTotalHarga(totalHarga + 40000);
+          setTotalHarga(totalHarga + 30000);
         } else {
           setMotorQty(motorQty - 1);
-          setTotalHarga(totalHarga - 40000);
+          setTotalHarga(totalHarga - 30000);
         }
         break;
       case 'mobil':
         if (operation === 'plus') {
           setMobilQty(mobilQty + 1);
-          setTotalHarga(totalHarga + 50000);
+          setTotalHarga(totalHarga + 40000);
         } else {
           setMobilQty(mobilQty - 1);
-          setTotalHarga(totalHarga - 50000);
+          setTotalHarga(totalHarga - 40000);
         }
         break;
       case 'truck':
@@ -74,7 +102,9 @@ const CuciKendaraan = ({navigation}) => {
         <View style={styles.containerCategory}>
           <Sepeda />
 
-          <Text style={styles.textPrice}>Rp. 24.000</Text>
+          {dataKendaraan && dataKendaraan[0] && dataKendaraan[0].price && (
+            <Text style={styles.textPrice}>Rp. {dataKendaraan[0].price}</Text>
+          )}
 
           <View style={styles.containerJumlah}>
             <TouchableOpacity
@@ -91,7 +121,12 @@ const CuciKendaraan = ({navigation}) => {
         <View style={styles.containerCategory}>
           <Motor />
 
-          <Text style={styles.textPrice}>Rp. 40.000</Text>
+          <Text style={styles.textPrice}>
+            Rp.
+            {dataKendaraan && dataKendaraan[1] && dataKendaraan[1].price && (
+              <Text style={styles.textPrice}>Rp. {dataKendaraan[1].price}</Text>
+            )}
+          </Text>
 
           <View style={styles.containerJumlah}>
             <TouchableOpacity onPress={() => handleQtyChange('motor', 'minus')}>
@@ -107,7 +142,12 @@ const CuciKendaraan = ({navigation}) => {
         <View style={styles.containerCategory}>
           <Mobil />
 
-          <Text style={styles.textPrice}>Rp. 50.000</Text>
+          <Text style={styles.textPrice}>
+            Rp.
+            {dataKendaraan && dataKendaraan[2] && dataKendaraan[2].price && (
+              <Text style={styles.textPrice}>Rp. {dataKendaraan[2].price}</Text>
+            )}
+          </Text>
 
           <View style={styles.containerJumlah}>
             <TouchableOpacity onPress={() => handleQtyChange('mobil', 'minus')}>
@@ -123,7 +163,12 @@ const CuciKendaraan = ({navigation}) => {
         <View style={styles.containerCategory}>
           <Truck />
 
-          <Text style={styles.textPrice}>Rp. 50.000</Text>
+          <Text style={styles.textPrice}>
+            Rp.
+            {dataKendaraan && dataKendaraan[3] && dataKendaraan[3].price && (
+              <Text style={styles.textPrice}>Rp. {dataKendaraan[3].price}</Text>
+            )}
+          </Text>
 
           <View style={styles.containerJumlah}>
             <TouchableOpacity onPress={() => handleQtyChange('truck', 'minus')}>
@@ -153,6 +198,15 @@ const CuciKendaraan = ({navigation}) => {
           textColor="#fff"
           navigation={navigation}
           toScreen="Pembayaran"
+          data={{
+            sepedaQty,
+            motorQty,
+            mobilQty,
+            truckQty,
+            totalHarga,
+            totalKendaraan,
+            username,
+          }}
         />
       </View>
     </ScrollView>

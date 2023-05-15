@@ -1,11 +1,71 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import {Logo, WuvIcon} from '../../assets/icons';
 import LinearGradient from 'react-native-linear-gradient';
 import Button from '../../components/atoms/Button';
 import TextInput from '../../components/molecules/TextInput';
 
+import axios from 'axios';
+
 const SignUp = ({navigation}) => {
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    setName('');
+    setPhoneNumber('');
+    setAddress('');
+    setUsername('');
+    setPassword('');
+  }, []);
+
+  const onName = text => {
+    setName(text);
+  };
+
+  const onPhoneNumber = text => {
+    setPhoneNumber(text);
+  };
+
+  const onAddress = text => {
+    setAddress(text);
+  };
+
+  const onUsername = text => {
+    setUsername(text);
+  };
+
+  const onPassword = text => {
+    setPassword(text);
+  };
+
+  const register = async () => {
+    try {
+      const res = await axios.post('http://192.168.43.230:3000/api/register', {
+        name,
+        phoneNumber,
+        address,
+        username,
+        password,
+        membership: 'Silver',
+        jumlahGunakanJasa: 0,
+      });
+
+      if (res.data.status == 'Success') {
+        navigation.navigate('SignIn');
+      } else {
+        console.log(res.data.status);
+        const pesan = res.data.message;
+        Alert.alert('Registrasi Gagal', pesan);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <LinearGradient
       colors={['#3E1A7E', '#682CA2']}
@@ -36,11 +96,11 @@ const SignUp = ({navigation}) => {
               disabled={true}
             />
           </View>
-          <TextInput placeHolder="Name" />
-          <TextInput placeHolder="Username" />
-          <TextInput placeHolder="Phone number" />
-          <TextInput placeHolder="Address" />
-          <TextInput placeHolder="Password" />
+          <TextInput placeHolder="Name" onChangeText={onName} />
+          <TextInput placeHolder="Username" onChangeText={onUsername} />
+          <TextInput placeHolder="Phone number" onChangeText={onPhoneNumber} />
+          <TextInput placeHolder="Address" onChangeText={onAddress} />
+          <TextInput placeHolder="Password" onChangeText={onPassword} />
           <Button
             label="Sign Up"
             backgroundColor="#6B30A4"
@@ -50,6 +110,7 @@ const SignUp = ({navigation}) => {
             paddingBottom={30}
             navigation={navigation}
             toScreen={'SignIn'}
+            onClick={register}
           />
         </View>
       </ScrollView>

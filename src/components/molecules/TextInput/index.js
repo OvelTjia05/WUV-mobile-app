@@ -8,13 +8,31 @@ import {
 } from 'react-native';
 import {isSearchBarAvailableForCurrentPlatform} from 'react-native-screens';
 
-const TextInput = ({label, placeHolder}) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <Input style={styles.textInput} placeholder={placeHolder + ' *'} />
-    </View>
-  );
+const TextInput = ({label, placeHolder, onChangeText}) => {
+  if (placeHolder == 'Phone number') {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.label}></Text>
+        <Input
+          style={styles.textInput}
+          placeholder={placeHolder + ' *'}
+          keyboardType="numeric"
+          onChangeText={text => onChangeText(text)}
+        />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.label}>{label}</Text>
+        <Input
+          style={styles.textInput}
+          placeholder={placeHolder + ' *'}
+          onChangeText={text => onChangeText(text)}
+        />
+      </View>
+    );
+  }
 };
 
 export default TextInput;
