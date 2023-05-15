@@ -13,6 +13,18 @@ const index = async (req, res, next) => {
   }
 };
 
+const getDataByUsername = async (req, res, next) => {
+  try {
+    const result = await User.findOne({ username: req.params.username });
+    res.json({
+      message: "List data user",
+      data: result,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 const login = async (req, res, next) => {
   try {
     const result = await User.find({ username: req.body.username, password: req.body.password });
@@ -47,14 +59,28 @@ const register = async (req, res, next) => {
     } else {
       await User.create(req.body);
 
-      const result = await User.find({ username: req.body.username, password: req.body.password });
-
       res.json({
-        status: "Success Register",
-        message: "get data user by username and password",
-        data: result,
+        status: "Success",
+        message: "Berhasil melakukan registrasi",
       });
     }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const tambahTransaksi = async (req, res, next) => {
+  try {
+    const user = await User.find({ username: req.params.username });
+    const transaksiBaru = req.body;
+    // console.log(user);
+    // console.log(transaksiBaru);
+
+    await User.updateOne({ username: req.params.username }, { $push: { riwayatTransaksi: transaksiBaru } });
+    res.json({
+      status: "berhasil",
+      message: "berhasil melakukan pembayaran",
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -64,4 +90,6 @@ module.exports = {
   index,
   login,
   register,
+  getDataByUsername,
+  tambahTransaksi,
 };

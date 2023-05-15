@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  membership: {
+    type: String,
+    required: true,
+  },
+  jumlahGunakanJasa: {
+    type: Number,
+    required: true,
+  },
   riwayatTransaksi: [
     {
       tanggalTransaksi: {
@@ -38,6 +46,11 @@ const userSchema = new mongoose.Schema({
         min: 0,
       },
       jumlahMobil: {
+        type: Number,
+        required: true,
+        min: 0,
+      },
+      jumlahTruk: {
         type: Number,
         required: true,
         min: 0,
